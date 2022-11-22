@@ -1,6 +1,47 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
+import { Button, AccordionSkeleton } from '@carbon/react';
+import {
+  DataTable,
+  Table,
+  TableHead,
+  TableRow,
+  TableHeader,
+  TableBody,
+  TableCell,
+} from '@carbon/react';
+
+const rows = [
+  {
+    id: 'a',
+    name: 'Load balancer 1',
+    status: 'Disabled',
+  },
+  {
+    id: 'b',
+    name: 'Load balancer 2',
+    status: 'Starting',
+  },
+  {
+    id: 'c',
+    name: 'Load balancer 3',
+    status: 'Active',
+  },
+];
+
+const headers = [
+  {
+    key: 'name',
+    header: 'Name',
+  },
+  {
+    key: 'status',
+    header: 'Status',
+  },
+];
+
+
 
 export default function Home() {
   return (
@@ -15,6 +56,32 @@ export default function Home() {
         <h1 className={styles.title}>
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
+        <Button>Hello world</Button>
+        <AccordionSkeleton className="custom-class" open count={3} />
+        <DataTable rows={rows} headers={headers}>
+  {({ rows, headers, getTableProps, getHeaderProps, getRowProps }) => (
+    <Table {...getTableProps()}>
+      <TableHead>
+        <TableRow>
+          {headers.map((header) => (
+            <TableHeader {...getHeaderProps({ header })}>
+              {header.header}
+            </TableHeader>
+          ))}
+        </TableRow>
+      </TableHead>
+      <TableBody>
+        {rows.map((row) => (
+          <TableRow {...getRowProps({ row })}>
+            {row.cells.map((cell) => (
+              <TableCell key={cell.id}>{cell.value}</TableCell>
+            ))}
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
+  )}
+</DataTable>
 
         <p className={styles.description}>
           Get started by editing{' '}
